@@ -48,7 +48,7 @@ public interface IOptionParser {
 		public @NotNull Argument<Integer> build(@NotNull Class<?> type, @NotNull Type generic, @NotNull Parameter param, @NotNull Option info, @NotNull String name) {
 			IntegerArgument arg;
 
-			if(info.minValue() != Integer.MAX_VALUE && info.maxValue() != Integer.MAX_VALUE) arg = new IntegerArgument(name, (int) info.minValue(), (int) info.minValue());
+			if(info.minValue() != Integer.MAX_VALUE && info.maxValue() != Integer.MAX_VALUE) arg = new IntegerArgument(name, (int) info.minValue(), (int) info.maxValue());
 			else if(info.minValue() != Integer.MAX_VALUE) arg = new IntegerArgument(name, (int) info.minValue());
 			else arg = new IntegerArgument(name);
 
@@ -71,7 +71,7 @@ public interface IOptionParser {
 		public @NotNull Argument<Double> build(@NotNull Class<?> type, @NotNull Type generic, @NotNull Parameter param, @NotNull Option info, @NotNull String name) {
 			DoubleArgument arg;
 
-			if(info.minValue() != Integer.MAX_VALUE && info.maxValue() != Integer.MAX_VALUE) arg = new DoubleArgument(name, info.minValue(), info.minValue());
+			if(info.minValue() != Integer.MAX_VALUE && info.maxValue() != Integer.MAX_VALUE) arg = new DoubleArgument(name, info.minValue(), info.maxValue());
 			else if(info.minValue() != Integer.MAX_VALUE) arg = new DoubleArgument(name, info.minValue());
 			else arg = new DoubleArgument(name);
 
