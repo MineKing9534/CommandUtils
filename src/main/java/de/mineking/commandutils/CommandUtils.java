@@ -3,6 +3,8 @@ package de.mineking.commandutils;
 import de.mineking.commandutils.options.IOptionParser;
 import de.mineking.commandutils.options.Option;
 import de.mineking.commandutils.options.OptionParser;
+import dev.jorel.commandapi.CommandAPI;
+import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.arguments.Argument;
 import dev.jorel.commandapi.executors.CommandArguments;
 import org.bukkit.command.CommandSender;
@@ -23,6 +25,11 @@ public final class CommandUtils extends JavaPlugin {
 
 	private final List<IOptionParser> parsers = new ArrayList<>();
 	private final Set<Command> commands = new HashSet<>();
+
+	@Override
+	public void onLoad() {
+		CommandAPI.onLoad(new CommandAPIBukkitConfig(this));
+	}
 
 	@Override
 	public void onEnable() {
