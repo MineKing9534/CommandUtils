@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'maven-publish'
 }
 
 group = 'de.mineking'
@@ -16,14 +15,6 @@ repositories {
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT"
     implementation "dev.jorel:commandapi-bukkit-shade:9.1.0"
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-        sourceCompatibility = 17
-        targetCompatibility = 17
-    }
 }
 
 processResources {
