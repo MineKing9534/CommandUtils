@@ -17,6 +17,12 @@ dependencies {
     implementation "dev.jorel:commandapi-bukkit-shade:9.1.0"
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 processResources {
     def props = [version: version]
     inputs.properties props
