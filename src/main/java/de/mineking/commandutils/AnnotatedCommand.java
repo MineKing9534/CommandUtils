@@ -88,7 +88,7 @@ public class AnnotatedCommand extends Command {
 			if(!c.isAnnotationPresent(MinecraftCommand.class)) continue;
 
 			var i = CommandUtils.INSTANCE.createInstance(c);
-			addSubcommand(get(type, (s, a) -> i));
+			addSubcommand(get(c, (s, a) -> i));
 		}
 	}
 
