@@ -1,0 +1,6 @@
+name: CommandUtils
+version: '${version}'
+main: de.mineking.commandutils.CommandUtils
+api-version: '1.20'
+libraries:
+  - "dev.jorel:commandapi-bukkit-shade:9.1.0"
