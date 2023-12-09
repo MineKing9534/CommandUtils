@@ -2,6 +2,7 @@ package de.mineking.commandutils;
 
 import de.mineking.commandutils.annotation.CommandMethod;
 import de.mineking.commandutils.annotation.MinecraftCommand;
+import de.mineking.commandutils.annotation.Permission;
 import de.mineking.commandutils.options.Autocomplete;
 import de.mineking.commandutils.options.Option;
 import dev.jorel.commandapi.arguments.ArgumentSuggestions;
@@ -31,6 +32,8 @@ public class AnnotatedCommand extends Command {
 		this.instance = instance;
 		this.type = type;
 		this.executors = Set.of(info.executors());
+
+		if(type.isAnnotationPresent(Permission.class)) this.permission = type.getAnnotation(Permission.class).value();
 
 		Method method = null;
 
