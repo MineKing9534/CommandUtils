@@ -2,7 +2,6 @@ package de.mineking.commandutils;
 
 import de.mineking.commandutils.options.IOptionParser;
 import de.mineking.commandutils.options.Option;
-import de.mineking.commandutils.options.OptionParser;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.arguments.Argument;
@@ -19,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public final class CommandUtils extends JavaPlugin {
 	public static CommandUtils INSTANCE;
@@ -37,6 +37,7 @@ public final class CommandUtils extends JavaPlugin {
 
 		parsers.add(IOptionParser.INTEGER);
 		parsers.add(IOptionParser.DOUBLE);
+		parsers.add(IOptionParser.LONG);
 		parsers.add(IOptionParser.STRING);
 		parsers.add(IOptionParser.BOOLEAN);
 		parsers.add(IOptionParser.OFFLINE_PLAYER);
@@ -48,9 +49,30 @@ public final class CommandUtils extends JavaPlugin {
 	}
 
 	@NotNull
-	public CommandUtils registerOptionParser(@NotNull OptionParser parser) {
+	public CommandUtils registerOptionParser(@NotNull IOptionParser parser) {
 		parsers.add(0, parser);
 		return this;
+	}
+
+	@NotNull
+	public CommandUtils registerOptionParser(@NotNull Function<String, Argument<?>> type) {
+		var temp = type.apply("");
+		return registerOptionParser(new IOptionParser() {
+			@Override
+			public boolean accepts(@NotNull Class<?> type, @NotNull Type generic, @NotNull Parameter param) {
+				return temp.getPrimitiveType().isAssignableFrom(type);
+			}
+
+			@Override
+			public @NotNull Argument<?> build(@NotNull Class<?> t, @NotNull Type generic, @NotNull Parameter param, @NotNull Option info, @NotNull String name) {
+				return type.apply(name);
+			}
+
+			@Override
+			public @Nullable Object parse(@NotNull CommandArguments args, @NotNull String name, @NotNull Class<?> type, @NotNull Type generic, @NotNull Parameter param, @NotNull Option info) {
+				return args.get(name);
+			}
+		});
 	}
 
 	@NotNull
