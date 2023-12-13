@@ -1,9 +1,13 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group = 'de.mineking'
 version = '1.0.0'
+
+var commit = getCommit()
+var release = System.getenv("RELEASE") == "true"
 
 repositories {
     mavenCentral()
@@ -17,11 +21,44 @@ dependencies {
     implementation "dev.jorel:commandapi-bukkit-shade:9.2.0"
 }
 
+publishing {
+    repositories {
+        maven {
+            url = "https://maven.mineking.dev/" + (release ? "releases" : "snapshots")
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_SECRET")
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            groupId = "de.mineking"
+            artifactId = "DiscordUtils"
+            version = release ? this.version : commit
+
+            from components.java
+        }
+    }
+}
+
 processResources {
     def props = [version: version]
     inputs.properties props
     filteringCharset 'UTF-8'
     filesMatching('plugin.yml') {
         expand props
+    }
+}
+
+static String getCommit() {
+    try {
+        var commit = 'git rev-parse --verify --short HEAD'.execute().text.trim()
+        return commit.isEmpty() ? 'unknown' : commit
+    } catch(IOException e) {
+        throw new RuntimeException(e)
     }
 }
