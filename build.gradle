@@ -42,7 +42,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             groupId = "de.mineking"
-            artifactId = "DiscordUtils"
+            artifactId = "CommandUtils"
             version = release ? this.version : commit
 
             from components.java
