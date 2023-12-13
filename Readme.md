@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-  implementation "de.mineking:CommandUtils:1.0.0"
+  implementation "de.mineking:CommandUtils:VERSION"
 }
 ```
 
@@ -32,7 +32,7 @@ dependencies {
   <dependency>
     <groupId>de.mineking</groupId>
     <artifactId>CommandUtils</artifactId>
-    <version>1.0.0</version>
+    <version>VERSION</version>
   </dependency>
 </dependencies>
 ```
