@@ -14,7 +14,7 @@ public @interface Option {
 
 	boolean required() default true;
 
-	double minValue() default Integer.MAX_VALUE;
+	double minValue() default Integer.MIN_VALUE;
 
 	double maxValue() default Integer.MAX_VALUE;
 }
