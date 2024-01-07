@@ -3,4 +3,4 @@ version: '${version}'
 main: de.mineking.commandutils.CommandUtils
 api-version: '1.20'
 libraries:
-  - "dev.jorel:commandapi-bukkit-shade:9.2.0"
+  - 'dev.jorel:commandapi-bukkit-shade:9.3.0'
