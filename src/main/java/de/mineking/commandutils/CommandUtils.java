@@ -2,6 +2,7 @@ package de.mineking.commandutils;
 
 import de.mineking.commandutils.options.IOptionParser;
 import de.mineking.commandutils.options.Option;
+import de.mineking.javautils.reflection.ReflectionUtils;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.arguments.Argument;
@@ -59,17 +60,17 @@ public final class CommandUtils extends JavaPlugin {
 		var temp = type.apply("");
 		return registerOptionParser(new IOptionParser() {
 			@Override
-			public boolean accepts(@NotNull Class<?> type, @NotNull Type generic, @NotNull Parameter param) {
-				return temp.getPrimitiveType().isAssignableFrom(type);
+			public boolean accepts(@NotNull Type type, @NotNull Parameter param) {
+				return temp.getPrimitiveType().isAssignableFrom(ReflectionUtils.getClass(type));
 			}
 
 			@Override
-			public @NotNull Argument<?> build(@NotNull Class<?> t, @NotNull Type generic, @NotNull Parameter param, @NotNull Option info, @NotNull String name) {
+			public @NotNull Argument<?> build(@NotNull Type t, @NotNull Parameter param, @NotNull Option info, @NotNull String name) {
 				return type.apply(name);
 			}
 
 			@Override
-			public @Nullable Object parse(@NotNull CommandArguments args, @NotNull String name, @NotNull Class<?> type, @NotNull Type generic, @NotNull Parameter param, @NotNull Option info) {
+			public @Nullable Object parse(@NotNull CommandArguments args, @NotNull String name, @NotNull Type type, @NotNull Parameter param, @NotNull Option info) {
 				return args.get(name);
 			}
 		});
@@ -101,20 +102,20 @@ public final class CommandUtils extends JavaPlugin {
 	}
 
 	@NotNull
-	public IOptionParser findParser(@NotNull Class<?> type, @NotNull Type generic, @NotNull Parameter param) {
+	public IOptionParser findParser(@NotNull Type type, @NotNull Parameter param) {
 		return parsers.stream()
-				.filter(p -> p.accepts(type, generic, param))
+				.filter(p -> p.accepts(type, param))
 				.findFirst().orElseThrow();
 	}
 
 	@NotNull
-	public Argument<?> buildArgument(@NotNull Class<?> type, @NotNull Type generic, @NotNull Option option, @NotNull Parameter param, @NotNull String name) {
-		return findParser(type, generic, param).build(type, generic, param, option, name);
+	public Argument<?> buildArgument(@NotNull Type type, @NotNull Option option, @NotNull Parameter param, @NotNull String name) {
+		return findParser(type, param).build(type, param, option, name);
 	}
 
 	@Nullable
-	public Object parseArgument(@NotNull CommandArguments args, @NotNull String name, @NotNull Class<?> type, @NotNull Type generic, @NotNull Parameter param, @NotNull Option info) {
-		return findParser(type, generic, param).parse(args, name, type, generic, param, info);
+	public Object parseArgument(@NotNull CommandArguments args, @NotNull String name, @NotNull Type type, @NotNull Parameter param, @NotNull Option info) {
+		return findParser(type, param).parse(args, name, type, param, info);
 	}
 
 	@NotNull
@@ -126,7 +127,6 @@ public final class CommandUtils extends JavaPlugin {
 
 			for(int i = 0; i < c.getParameterCount(); i++) {
 				var p = c.getParameters()[i];
-
 			}
 
 			return c.newInstance(params);

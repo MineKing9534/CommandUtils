@@ -83,7 +83,7 @@ public class AnnotatedCommand extends Command {
 				var option = p.getAnnotation(Option.class);
 				if(option == null) continue;
 
-				CommandUtils.INSTANCE.findParser(p.getType(), g, p).register(this, g, p, option, autocomplete.get(p.getName()));
+				CommandUtils.INSTANCE.findParser(g, p).register(this, g, p, option, autocomplete.get(p.getName()));
 			}
 		}
 
@@ -115,7 +115,7 @@ public class AnnotatedCommand extends Command {
 
 			if(option == null) {
 				if(p.getType().isAssignableFrom(sender.getClass())) params[i] = sender;
-			} else params[i] = CommandUtils.INSTANCE.parseArgument(args, option.name().isEmpty() ? p.getName() : option.name(), p.getType(), g, p, option);
+			} else params[i] = CommandUtils.INSTANCE.parseArgument(args, option.name().isEmpty() ? p.getName() : option.name(), g, p, option);
 		}
 
 		try {

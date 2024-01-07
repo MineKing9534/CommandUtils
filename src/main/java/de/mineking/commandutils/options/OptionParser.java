@@ -21,17 +21,17 @@ public class OptionParser implements IOptionParser {
 	}
 
 	@Override
-	public boolean accepts(@NotNull Class<?> type, @NotNull Type generic, @NotNull Parameter param) {
+	public boolean accepts(@NotNull Type type, @NotNull Parameter param) {
 		return types.stream().anyMatch(c -> c.isAssignableFrom(type));
 	}
 
 	@Override
-	public @NotNull Argument<?> build(@NotNull Class<?> type, @NotNull Type generic, @NotNull Parameter param, @NotNull Option info, @NotNull String name) {
+	public @NotNull Argument<?> build(@NotNull Type type, @NotNull Parameter param, @NotNull Option info, @NotNull String name) {
 		return constructor.apply(name);
 	}
 
 	@Override
-	public @Nullable Object parse(@NotNull CommandArguments args, @NotNull String name, @NotNull Class<?> type, @NotNull Type generic, @NotNull Parameter param, @NotNull Option info) {
+	public @Nullable Object parse(@NotNull CommandArguments args, @NotNull String name, @NotNull Type type, @NotNull Parameter param, @NotNull Option info) {
 		return args.get(name);
 	}
 }
