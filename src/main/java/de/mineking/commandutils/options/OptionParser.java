@@ -1,5 +1,6 @@
 package de.mineking.commandutils.options;
 
+import de.mineking.javautils.reflection.ReflectionUtils;
 import dev.jorel.commandapi.arguments.Argument;
 import dev.jorel.commandapi.executors.CommandArguments;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ public class OptionParser implements IOptionParser {
 
 	@Override
 	public boolean accepts(@NotNull Type type, @NotNull Parameter param) {
-		return types.stream().anyMatch(c -> c.isAssignableFrom(type));
+		return types.stream().anyMatch(c -> c.isAssignableFrom(ReflectionUtils.getClass(type)));
 	}
 
 	@Override
